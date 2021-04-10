@@ -4,8 +4,13 @@ class Post < ApplicationRecord
     validates :text, presence: true
 
     def Post.to_json(page)
-        posts = Post.paginate(page: page, per_page: 10)
+        posts = Post.paginate(page: page, per_page: 10).order('created_at DESC')
         posts.map { |post| post.as_json(only: ["user_id", "text", "updated_at", "id"])
             .merge(username: post.user.username) }
+    end
+    
+    def Post.serialize(post)
+        post.as_json(only: ["user_id", "text", "updated_at", "id"])
+            .merge(username: post.user.username)
     end
 end

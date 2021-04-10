@@ -1,7 +1,7 @@
 module SessionsHelper
     def current_user
-        @current_user = session[:user_id].try {|id| User.find_by(id: id)}
-    end
+        @current_user ||= User.find_by(id: user_id) if (user_id = session[:user_id])
+    end     
 
     def logged_in?
         current_user.nil?

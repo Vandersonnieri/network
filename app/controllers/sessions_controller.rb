@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
         body = JSON.parse(request.body.read)
         user = User.find_by(username: body['username'])
         if user && user.authenticate(body['password'])
-            session['user_id'] = user['id']
+            session[:user_id] = user[:id]
             render json: user
         else
             render json: {message: {error: ["Invalid user or password"]}}
