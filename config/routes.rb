@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   post "/register", to: "users#create"
   post "/login", to: "sessions#create"
   delete "/signout", to: "sessions#destroy"
-  resources :posts
+  resources :posts do 
+    resources :likes
+  end
 end

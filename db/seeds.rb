@@ -9,3 +9,5 @@ users = User.order(:created_at).take(3)
 2.times do
     users.each { |user| user.posts.create!(text: Faker::Lorem.sentence(word_count: 5)) }
 end
+
+
