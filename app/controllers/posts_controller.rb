@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     # before_action :logged_in_user
-    before_action :correct_user, only: [:update]
+    before_action :correct_user, only: [:update, :like]
 
     def index
         render json: Post.to_json(params[:page])
@@ -19,12 +19,17 @@ class PostsController < ApplicationController
 
     def update
         if @body["text"].empty?
-            render json: @error_message       
+            render json: @error_message
         elsif @post.update(text: @body["text"])
             render json: Post.serialize(@post)
         else
             render json: User.error_message
         end
+    end
+
+    def like
+        Like.create(user_id: @body['user_id'], post_id: @post.id)
+        render json: { likes_count: @post.likes.length }
     end
 
     private
@@ -34,7 +39,7 @@ class PostsController < ApplicationController
         @post = user.posts.find_by(id: params[:id])
         if @post.nil?
             render json: User.error_message
-        end 
+        end
     end
 end
 
