@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/signout", to: "sessions#destroy"
   resources :posts do 
-    resources :likes
+    resource :likes
   end
 end
